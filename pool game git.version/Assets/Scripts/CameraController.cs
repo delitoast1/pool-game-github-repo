@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CameraController : MonoBehaviour
 {
@@ -8,7 +9,7 @@ public class CameraController : MonoBehaviour
     // The distance between the camera and the player.
     private Vector3 offset;
     public float speed = 15.0f; //母球 初速
-    public float forceSpd = 9.0f; //母球 蓄力 速度
+    public float forceSpd = 1.0f; //母球 蓄力 速度
     private float force = 0.0f; //母球 已經蓄了多少力 的大小
     public float distance = 6.0f; //攝影機 離 母球 距離 初始值
     public float xSpeed = 120.0f; //滑鼠左右移動速度
@@ -22,6 +23,8 @@ public class CameraController : MonoBehaviour
     float y = 0.0f;
     // Use this for initialization
     // Start is called before the first frame update.
+
+    public Slider slider;
     void Start()
     {
         //攝影機位置 - 母球位置 = 相對位置
@@ -30,6 +33,8 @@ public class CameraController : MonoBehaviour
         x = angles.y;
         y = angles.x;
         rbody = player.GetComponent<Rigidbody>();
+
+        slider.value = 0;
     }
 
     // LateUpdate is called once per frame after all Update functions have been completed.
@@ -58,6 +63,7 @@ public class CameraController : MonoBehaviour
         if (Input.GetMouseButton(1)) // 按滑鼠右鍵 按住 蓄力
         {
             force += Time.deltaTime * forceSpd; // 大小和時間成正比
+            slider.value = force;
         }
         else if (Input.GetMouseButtonUp(1)) // 按滑鼠右鍵 放開 發射
         {
@@ -68,6 +74,7 @@ public class CameraController : MonoBehaviour
                                //力量模式 impulse:衝力，speed：初速大小
             rbody.AddForce(movement * speed * force, ForceMode.Impulse);
             force = 0.0f; // 力量用盡歸 0，準備下次重新蓄力
+            slider.value = 0;
         }
     }
     public static float ClampAngle(float angle, float min, float max)
