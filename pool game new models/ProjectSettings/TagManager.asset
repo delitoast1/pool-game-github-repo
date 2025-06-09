@@ -6,6 +6,10 @@ TagManager:
   tags:
   - PickUp
   - Danger
+  - safe
+  - playersafe
+  - tallwall2
+  - tallwall1
   layers:
   - Default
   - TransparentFX
